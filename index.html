@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Live Concert Search</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<meta description="Search live concert">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="js/bands-in-town.js"></script>
+	<script src="js/spotify.js"></script>
+</head>
+<body>
+	<head>
+		<div class="header">
+			<h1>Live Concert Search</h1>
+		</div>
+	</head>
+	<main>
+		<form class="search-form js-search-form">
+			<input type="text" name="search-query" id="js-search-query" placeholder="Please type in artist name">
+			<button class="search-button" type="submit">Submit</button>
+		</form>
+		<div class="search-results js-search-results"></div>
+	</main>
+</body>
+</html>

@@ -1,0 +1,66 @@
+*{
+	box-sizing: border-box;
+}
+
+body{
+	font-family: "Roboto", helvetica, sans-serif;
+}
+
+.header{
+	margin: auto;
+	width: 30%;
+	height: 5%;
+	text-align: center;
+}
+
+.search-form{
+	margin: auto;
+	margin-top: 2%;
+	width: 35%;
+	height: 5%;
+	padding: 10px;	
+}
+
+.search-results{
+	margin: auto;
+	margin-top: 1%;
+	width: 35%;
+	height: 20%;
+	padding: 10px;
+}
+
+.search-display{
+	margin-top: 50px;
+}
+
+.next-page{
+	float: right;
+}
+
+.artist-image{
+	display: block;
+	margin-bottom: 30px;
+}
+
+.ticket, .no-ticket{
+    background-color: green;
+    width: 80px;
+    border: 1px green solid;
+    height: 25px;
+    display: block;
+    text-align: center;
+    padding-top: 3px;
+    text-decoration: none;
+    color: white;
+}
+
+.no-ticket{
+	background-color: red;
+    border: 1px red solid;
+    text-decoration: line-through;
+}
+
+.artist-name:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
