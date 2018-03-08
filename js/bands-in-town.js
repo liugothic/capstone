@@ -9,8 +9,8 @@ var EVENT_RESULTS_TEMPLATE =
 	</div>';
 
 var ARTIST_NAME_TEMPLATE = 
-	'<div class="js-artist-name-block artist-name-block">\
-		<h2 class="artist-name"></h2>\
+	'<div class="js-artist-block artist-block">\
+		<h2 class="js-artist-name artist-name"></h2>\
 	</div>';
 
 var ARTIST_IMAGE_TEMPLATE = '<img class="artist-image" src="">';
