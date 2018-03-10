@@ -2,14 +2,18 @@
 <html>
 <head>
 	<title>Live Concert Search</title>
-	<link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/tooltip.css">
 	<meta description="Search live concert">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
           crossorigin="anonymous"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBERGANqxpkXtGEJR1XIMOvqfdAQczTPXA"></script>
 	<script src="js/bands-in-town.js"></script>
 	<script src="js/youtube.js"></script>
+	<script src="js/gmaps.js"></script>
+	<script src="js/googlemap.js"></script>
 </head>
 <body>
 	<head>
@@ -22,7 +26,12 @@
 			<input type="text" name="search-query" id="js-search-query" placeholder="Please type in artist name">
 			<button class="search-button" type="submit">Submit</button>
 		</form>
-		<div class="search-results js-search-results"></div>
+		<div class="search-results js-search-results">
+			<div class="search-results-artist js-search-results-artist">			
+			</div>
+			<div class="search-results-events js-search-results-events">			
+			</div>
+		</div>
 	</main>
 </body>
 </html>

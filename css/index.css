@@ -61,7 +61,7 @@ body{
     text-decoration: line-through;
 }
 
-.artist-name:hover{
+.clickable:hover{
 	text-decoration: underline;
 	cursor: pointer;
 }
@@ -69,4 +69,10 @@ body{
 .top-hit{
 	display: block;
 	color: blue;
+}
+
+.display-map{
+	height: 500px;
+    width: 100%;
+    margin-top: 20px;
 }
