@@ -23,7 +23,6 @@ var NEXT_PAGE_TEMPLATE = '<button class="js-next-page next-page"></button>';
 
 var EVENT_RESULTS = {
 	results: [],
-	locations: [],
 	current_index: 0
 };
 
@@ -79,7 +78,6 @@ function handleEventData(data){
 
 	data.forEach((item, index) => {
 		EVENT_RESULTS.results.push(renderEventResult(item, index));
-		EVENT_RESULTS.locations.push({latitude: item.venue.latitude, longitude: item.venue.longitude});
 	});
 
 	displayEventResults(true, true);

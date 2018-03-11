@@ -1,11 +1,3 @@
-function displayMap(className, location) {
-	new GMaps({
-	  div: '.' + className,
-	  lat: location.latitude,
-	  lng: location.longitude
-	});
-}
-
 function displayMap(eventDisplayBlock){
 	var mapElement = eventDisplayBlock.find('.js-map');
 
@@ -15,15 +7,23 @@ function displayMap(eventDisplayBlock){
 	mapElement.toggleClass(className);
 	mapElement.toggleClass('display-map');
 
-	var location = EVENT_RESULTS.locations[id];
 	var map = new GMaps({
-	  div: '.' + className,
-	  lat: location.latitude,
-	  lng: location.longitude
+	  div: '.' + className
 	});
-	map.addMarker({
-  		lat: location.latitude,
-  		lng: location.longitude
+
+	var location = eventDisplayBlock.find('.js-venue-name').text() + ', ' + eventDisplayBlock.find('.js-venue-location').text();
+	GMaps.geocode({
+	  address: location,
+	  callback: function(results, status) {
+	    if (status == 'OK') {
+	      var latlng = results[0].geometry.location;
+	      map.setCenter(latlng.lat(), latlng.lng());
+	      map.addMarker({
+	        lat: latlng.lat(),
+	        lng: latlng.lng()
+	      });
+	    }
+	  }
 	});
 }
 
