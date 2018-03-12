@@ -17,7 +17,7 @@ var ARTIST_NAME_TEMPLATE =
 
 var ARTIST_IMAGE_TEMPLATE = '<img class="artist-image" src="">';
 
-var PREV_PAGE_TEMPLATE = '<button class="js-prev-page"></button>';
+var PREV_PAGE_TEMPLATE = '<button class="js-prev-page prev-page"></button>';
 
 var NEXT_PAGE_TEMPLATE = '<button class="js-next-page next-page"></button>';
 

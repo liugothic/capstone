@@ -7,33 +7,41 @@ body{
 }
 
 .header{
-	margin: auto;
+	margin: 0 auto;
 	width: 30%;
 	height: 5%;
 	text-align: center;
 }
 
 .search-form{
-	margin: auto;
+	margin: 0 auto;
 	margin-top: 2%;
-	width: 35%;
+	width: 50%;
 	height: 5%;
 	padding: 10px;	
+	text-align: center;
 }
 
 .search-results{
-	margin: auto;
+	margin: 0 auto;
 	margin-top: 1%;
-	width: 35%;
+	width: 50%;
 	height: 20%;
 	padding: 10px;
+	text-align: center;
 }
 
 .search-display{
 	margin-top: 50px;
 }
 
+.prev-page{
+	margin-top: -10%;
+	float: left;
+}
+
 .next-page{
+	margin-top: -10%;
 	float: right;
 }
 
@@ -41,6 +49,9 @@ body{
 	display: block;
 	margin-top: 30px;
 	margin-bottom: 30px;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .ticket, .no-ticket{
@@ -53,6 +64,9 @@ body{
     padding-top: 3px;
     text-decoration: none;
     color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
 }
 
 .no-ticket{
@@ -74,5 +88,8 @@ body{
 .display-map{
 	height: 500px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin: auto;
 }
+

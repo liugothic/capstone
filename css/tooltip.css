@@ -15,7 +15,7 @@
 [data-tooltip]:before {
   position: absolute;
   bottom: 150%;
-  left: 10%;
+  left: 50%;
   margin-bottom: 5px;
   margin-left: -50px;
   padding: 7px;
@@ -36,7 +36,7 @@
 [data-tooltip]:after {
   position: absolute;
   bottom: 150%;
-  left: 10%;
+  left: 50%;
   margin-left: -5px;
   width: 0;
   border-top: 5px solid #000;
