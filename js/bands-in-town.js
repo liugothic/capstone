@@ -15,11 +15,12 @@ var ARTIST_NAME_TEMPLATE =
 		<h2 class="js-artist-name artist-name clickable" data-tooltip="click me!"></h2>\
 	</div>';
 
-var ARTIST_IMAGE_TEMPLATE = '<img class="artist-image" src="">';
-
-var PREV_PAGE_TEMPLATE = '<button class="js-prev-page prev-page"></button>';
-
-var NEXT_PAGE_TEMPLATE = '<button class="js-next-page next-page"></button>';
+var PAGE_TEMPLATE = 
+	'<div>\
+		<button class="js-prev-page prev-page button"></button>\
+		<div class="space"></div>\
+		<button class="js-next-page next-page button"></button>\
+	</div>';
 
 var EVENT_RESULTS = {
 	results: [],
@@ -51,7 +52,7 @@ function displayArtistResult(artistResult){
 	artistNameBlockElement.find('.artist-name').text(artistResult.name);
 	
 	render_results.push(artistNameBlockElement);
-	render_results.push($(ARTIST_IMAGE_TEMPLATE).attr('src', artistResult.thumb_url));
+	render_results.push($('<img class="artist-image" src="">').attr('src', artistResult.thumb_url));
 
 	$('.js-search-results-artist').html(render_results);
 }
@@ -123,8 +124,11 @@ function displayEventResults(firstCall, next){
 		return;
 	}
 
-	render_results.push($(PREV_PAGE_TEMPLATE).text('Prev'));
-	render_results.push($(NEXT_PAGE_TEMPLATE).text('Next'));	
+	var pageElement = $(PAGE_TEMPLATE);
+	pageElement.find('.js-prev-page').text('Prev');
+	pageElement.find('.js-next-page').text('Next');
+
+	render_results.push(pageElement);
 
 	EVENT_RESULTS.results.forEach((item, index) => {
 	if (index >= EVENT_RESULTS.current_index && index <= EVENT_RESULTS.current_index + PER_PAGE_NUMBER - 1){ 

@@ -1,8 +1,6 @@
 var YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 var YOUTUBE_PLAYLISTITEMS_URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
 
-var PLAYLIST_ITEM_TEMPLATE = '<a class="top-hit" href="" target="_blank"></a>';
-
 var STATE = {
 	artistName: '',
 	contents: [],
@@ -51,7 +49,7 @@ function handlePlayListItems(data){
 }
 
 function renderPlayListItem(item){
-	var element = $(PLAYLIST_ITEM_TEMPLATE);
+	var element = $('<a class="top-hit" href="" target="_blank"></a>');
 	element.text(item.snippet.title);
 	element.attr('href', 'https://www.youtube.com/watch?v=' + item.snippet.resourceId.videoId);
 
