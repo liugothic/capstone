@@ -1,70 +1,83 @@
 var SEARCH_URL = 'https://rest.bandsintown.com/artists/';
 
-var EVENT_RESULTS_TEMPLATE = 
-	'<div class="js-search-display search-display">\
-		<p class="js-event-date event-date"></p>\
-		<p class="js-venue-name venue-name clickable" data-tooltip="click me!"></p>\
-		<p class="js-venue-location venue-location"></p>\
-		<a class="js-ticket ticket" href="" target="_blank"></a>\
-		<div class="js-id"></div>\
-		<div class="js-map"></div>\
-	</div>';
-
-var ARTIST_NAME_TEMPLATE = 
-	'<div class="js-artist-block artist-block">\
-		<h2 class="js-artist-name artist-name clickable" data-tooltip="click me!"></h2>\
-	</div>';
-
-var PAGE_TEMPLATE = 
-	'<div>\
-		<button class="js-prev-page prev-page button"></button>\
-		<div class="space"></div>\
-		<button class="js-next-page next-page button"></button>\
-	</div>';
-
-var EVENT_RESULTS = {
-	results: [],
-	current_index: 0
-};
-
-var PER_PAGE_NUMBER = 3;
+var EVENT_RESULTS = {};
 
 var SEARCH_TERM;
 
-function getArtistDataFromAPI(searchTerm, callBack, handleError){
-	var query ={
+var MAP;
+
+var CURRENT_LOCATION;
+
+function getArtistDataFromAPI(searchTerm, callBack, handleError)
+{
+	var query =
+	{
 		app_id: 'thinkful'	
 	}
 	var updatedUrl = SEARCH_URL + searchTerm;
 	return $.getJSON(updatedUrl, query).done(callBack).fail(handleError);
 }
 
-function handleArtistData(data){
+function handleArtistData(data)
+{
+	clear();
 	displayArtistResult(data);
-
+	showHits(data.name);
 	getEventDataFromAPI(SEARCH_TERM, handleEventData, handleNoArtist);
 }
 
-function displayArtistResult(artistResult){
+function displayArtistResult(artistResult)
+{
 	var render_results = [];
 
-	var artistNameBlockElement = $(ARTIST_NAME_TEMPLATE);
-	artistNameBlockElement.find('.artist-name').text(artistResult.name);
+	var artistNameElement = $('<h2 class="js-artist-name artist-name"></h2>');
+	artistNameElement.text(artistResult.name);
 	
-	render_results.push(artistNameBlockElement);
+	render_results.push(artistNameElement);
 	render_results.push($('<img class="artist-image" src="">').attr('src', artistResult.thumb_url));
+
+    display($('.js-search-results-artist'));
 
 	$('.js-search-results-artist').html(render_results);
 }
 
-function handleNoArtist(){
-	var element = $('<p></p>');
-	element.text('Artist not exist, please check your spell.');
-	$('.js-search-results-artist').html(element);
+function clear()
+{
+	MAP.removeMarkers();
+	MAP.setZoom(4);
+	MAP.setCenter(CURRENT_LOCATION.latitude, CURRENT_LOCATION.longitude);
+	hide($('.js-search-results-artist'));
+	hide($('.js-search-results-events'));
+	hide($('.js-search-results-hits'));
 	$('.js-search-results-events').html($(''));
+	$('.js-search-results-hits').html($(''));
 }
 
-function getEventDataFromAPI(searchTerm, callBack){
+function hide(element)
+{
+	if (element.hasClass('search-display'))
+	{
+		element.toggleClass('search-display');
+	}
+}
+
+function display(element)
+{
+	if (!element.hasClass('search-display'))
+	{
+		element.toggleClass('search-display');
+	}
+}
+
+function handleNoArtist()
+{
+	clear();
+
+	$('.js-search-results-artist').html($('<p>Artist not exist, please check your spell.</p>'));
+}
+
+function getEventDataFromAPI(searchTerm, callBack)
+{
 	var query ={
 		app_id: 'thinkful'	
 	}
@@ -72,94 +85,159 @@ function getEventDataFromAPI(searchTerm, callBack){
 	return $.getJSON(updatedUrl, query).done(callBack);
 }
 
-function handleEventData(data){	
-	EVENT_RESULTS.results = [];
+function handleEventData(data)
+{	
+	EVENT_RESULTS.results = new Map();
 	EVENT_RESULTS.locations = [];
-	EVENT_RESULTS.current_index = 0;
 
-	data.forEach((item, index) => {
-		EVENT_RESULTS.results.push(renderEventResult(item, index));
+	data.forEach((item, index) => 
+	{
+		var element = renderDateTicketElement(item, index);
+		var address = item.venue.name + ', ' + (item.venue.region !== "" ? 
+			item.venue.city + ', ' + item.venue.region + ', ' + item.venue.country :
+			item.venue.city + ', ' + item.venue.country);
+
+		var location = {latitude: item.venue.latitude, longitude: item.venue.longitude};
+		if (EVENT_RESULTS.results.has(address))
+		{
+			EVENT_RESULTS.results.get(address).events.push(element);
+		}
+		else
+		{
+			EVENT_RESULTS.results.set(address, {location: location, events: [element]});
+		}
 	});
 
-	displayEventResults(true, true);
+	EVENT_RESULTS.results.forEach(((value, key) => 
+	{
+		displayOnMap(value, key);
+	}))
 }
 
-function renderEventResult(item, index){
-	var element = $(EVENT_RESULTS_TEMPLATE);
+function renderDateTicketElement(item, index)
+{
+	var element = $('<div></div>');
 
+	var dateElement = $('<p class="inline-block"></p>');
 	var datetime = item.datetime.replace('T', ' | ');
-	element.find('.js-event-date').text(datetime);
-	element.find('.js-venue-name').text(item.venue.name);
-	element.find('.js-venue-location').text(item.venue.region !== "" ? 
-		item.venue.city + ', ' + item.venue.region + ', ' + item.venue.country :
-		item.venue.city + ', ' + item.venue.country);
+	dateElement.text(datetime);
+	element.append(dateElement);
 
-	item.offers.forEach((iter, index) => {
-		if (iter.type === "Tickets"){
-			if (iter.status === "available"){
-				element.find('.js-ticket').attr('href', iter.url).text('Get Ticket');
+	var ticketElement = $('<a class="ticket inline-block" href="" target="_blank"></a>');
+	item.offers.forEach((iter, index) => 
+	{
+		if (iter.type === "Tickets")
+		{
+			if (iter.status === "available")
+			{
+				ticketElement.attr('href', iter.url).text('Get Ticket');
+				element.append(ticketElement);
 			}
-			else{
-				element.find('.js-ticket').remove();
+			else
+			{
+				ticketElement.remove();
 				element.append($('<p class="no-ticket"></p>').text('No Ticket'));
 			}
 		}
 	});
 
-	element.find('.js-id').text(index).hide();
-
 	return element;
 }
 
-function displayEventResults(firstCall, next){
-	if (!firstCall)
+function getCurrentLocation()
+{
+	GMaps.geolocate(
 	{
-		updateCurrentIndex(next);
-	}
-
-	var render_results = [];
-
-	if (EVENT_RESULTS.results.length === 0){
-		handleNoEvent(render_results);
-		return;
-	}
-
-	var pageElement = $(PAGE_TEMPLATE);
-	pageElement.find('.js-prev-page').text('Prev');
-	pageElement.find('.js-next-page').text('Next');
-
-	render_results.push(pageElement);
-
-	EVENT_RESULTS.results.forEach((item, index) => {
-	if (index >= EVENT_RESULTS.current_index && index <= EVENT_RESULTS.current_index + PER_PAGE_NUMBER - 1){ 
-		render_results.push(item)};
+	  success: function(position) 
+	  {
+	  	initMap(position.coords.latitude, position.coords.longitude);
+	  	CURRENT_LOCATION = position.coords;
+	  },
+	  error: function(error) 
+	  {
+	    alert('Geolocation failed: ' + error.message);
+	  },
+	  not_supported: function() 
+	  {
+	    alert("Your browser does not support geolocation");
+	  },
+	  always: function() 
+	  {
+	  }
 	});
-
-	$('.js-search-results-events').html(render_results);
 }
 
-function handleNoEvent(render_results){
-	render_results.push($('<p></p>').text('No upcoming events.'));
-	$('.js-search-results-events').html(render_results);
+function initMap(latitude, longitude)
+{
+	MAP = new GMaps(
+	{
+  		div: '.map',
+  		lat: latitude,
+  		lng: longitude,
+  		zoom: 4
+	});
 }
 
-function updateCurrentIndex(next){
-	var currentIndex = EVENT_RESULTS.current_index;
-	if (next){
-		var updatedIndex = EVENT_RESULTS.current_index + PER_PAGE_NUMBER;
-		if (updatedIndex <= EVENT_RESULTS.results.length - 1)
-		{
-			EVENT_RESULTS.current_index = updatedIndex;
-		}
-	}
-	if (!next){
-		EVENT_RESULTS.current_index = Math.max(0, EVENT_RESULTS.current_index - PER_PAGE_NUMBER);
-	}	
+function displayOnMap(value, key)
+{
+	GMaps.geocode(
+	{
+	  	address: key,
+	  	callback: function(results, status)
+	  	{
+		  	var lat;
+		  	var lng;
+		    if (status == 'OK') 
+		    {
+		      	var latlng = results[0].geometry.location;
+		      	lat = latlng.lat();
+		      	lng = latlng.lng();
+		  	}
+		  	else 
+		  	{
+		  		lat = value.location.latitude;
+		  		lng = value.location.longitude;
+		  	}
+
+		    MAP.addMarker(
+		    {
+		        lat: lat,
+		        lng: lng,
+		        click: function(e){
+		        	displayEvent(value, key);
+		        	MAP.setCenter(lat, lng);
+		        	MAP.setZoom(8);
+		        }
+		    });
+	    }
+	});
 }
 
+function displayEvent(value, key)
+{
+	display($('.js-search-results-events'));  
 
-function search(){
-	$('.js-search-form').submit(event => {
+	var render = [];
+
+	var locationElement = $('<p></p>');
+	locationElement.text(key);
+	render.push(locationElement);  	
+	
+	value.events.forEach(event => 
+	{
+		render.push(event);
+	})
+
+	$('.js-search-results-events').html(render);
+}
+
+function search()
+{
+	initMap(40.730610, -73.935242);
+	getCurrentLocation();
+
+	$('.js-search-form').submit(event => 
+	{
 		event.preventDefault();
 		var input = $(this).find('#js-search-query');
 		SEARCH_TERM = input.val();
@@ -167,14 +245,6 @@ function search(){
 
 		getArtistDataFromAPI(SEARCH_TERM, handleArtistData, handleNoArtist);
 	});
-
-	$('main').on('click', '.js-prev-page', event => {
-		displayEventResults(false, false);
-	})
-
-	$('main').on('click', '.js-next-page', event => {
-		displayEventResults(false, true);
-	})
 };
 
 $(search);

@@ -1,15 +1,11 @@
 var YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 var YOUTUBE_PLAYLISTITEMS_URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
 
-var STATE = {
-	artistName: '',
-	contents: [],
-	clicked: false
-};
 
-
-function getTopHitsPlayList(searchTerm, callBack){
-	var query = {
+function getTopHitsPlayList(searchTerm, callBack)
+{
+	var query = 
+	{
 		q: `top tracks ${searchTerm} in:playlist`,
 		part: 'snippet',
 		key: 'AIzaSyBERGANqxpkXtGEJR1XIMOvqfdAQczTPXA'
@@ -17,14 +13,17 @@ function getTopHitsPlayList(searchTerm, callBack){
 	return $.getJSON(YOUTUBE_SEARCH_URL, query, callBack);
 }
 
-function handlePlayList(data){
+function handlePlayList(data)
+{
 	var playlistId = data.items[0].id.playlistId;
 
 	getTopHits(playlistId, handlePlayListItems);
 }
 
-function getTopHits(playlistId, callBack){
-	var query = {
+function getTopHits(playlistId, callBack)
+{
+	var query = 
+	{
 		part: 'snippet',
 		playlistId: `${playlistId}`,
 		key: 'AIzaSyBERGANqxpkXtGEJR1XIMOvqfdAQczTPXA'
@@ -32,47 +31,31 @@ function getTopHits(playlistId, callBack){
 	return $.getJSON(YOUTUBE_PLAYLISTITEMS_URL, query, callBack);
 }
 
-function handlePlayListItems(data){
-	var results = [];
+function handlePlayListItems(data)
+{
+	display($('.js-search-results-hits'));
 
-	results.push($('.js-artist-name'));
+	var render_results = [];
 
-	data.items.forEach((item, index) => {
-		results.push(renderPlayListItem(item));
+	data.items.forEach((item, index) => 
+	{
+		render_results.push(renderPlayListItem(item));
 	});
 
-	STATE.artistName = $('.js-artist-name').text();
-	STATE.contents = results;
-	STATE.clicked = true;
-
-	$('.js-artist-block').html(results);
+	$('.js-search-results-hits').html(render_results);
 }
 
-function renderPlayListItem(item){
+function renderPlayListItem(item)
+{
+	var hitElement = $('<div class="top-hit"></div>');
 	var element = $('<a class="top-hit" href="" target="_blank"></a>');
 	element.text(item.snippet.title);
 	element.attr('href', 'https://www.youtube.com/watch?v=' + item.snippet.resourceId.videoId);
+	hitElement.append(element);
 
-	return element;
+	return hitElement;
 }
 
-function showHits(){
-	$('.js-search-results-artist').on('click', '.js-artist-block', event =>{
-		if (!STATE.clicked){
-			var searchTerm = $(this).find('.js-artist-name').text();
-			if (searchTerm === STATE.artistName){
-				$('.js-artist-block').html(STATE.contents);
-				STATE.clicked = true;
-			}
-			else{
-				getTopHitsPlayList(searchTerm, handlePlayList);
-			}
-		}
-		else{
-			$('.js-artist-block').html($('.js-artist-name'));
-			STATE.clicked = false;
-		}
-	})
+function showHits(searchTerm){
+	getTopHitsPlayList(searchTerm, handlePlayList);
 }
-
-$(showHits);

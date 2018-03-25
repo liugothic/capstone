@@ -2,36 +2,47 @@
 <html>
 <head>
 	<title>Live Concert Search</title>
+	<link rel="stylesheet" type="text/css" href="css/grid.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
-	<link rel="stylesheet" type="text/css" href="css/tooltip.css">
 	<meta description="Search live concert">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
           crossorigin="anonymous"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBERGANqxpkXtGEJR1XIMOvqfdAQczTPXA"></script>
+	<script src="js/gmaps.js"></script>
 	<script src="js/bands-in-town.js"></script>
 	<script src="js/youtube.js"></script>
-	<script src="js/gmaps.js"></script>
-	<script src="js/googlemap.js"></script>
 </head>
+
 <body>
-	<head>
-		<div class="header">
-			<h1>Live Concert Search</h1>
-		</div>
-	</head>
-	<main>
-		<form class="search-form js-search-form">
-			<input type="text" name="search-query" id="js-search-query" class="search-query" placeholder="Please type in artist name">
-			<button class="button" type="submit">Submit</button>
-		</form>
-		<div class="search-results js-search-results">
-			<div class="search-results-artist js-search-results-artist">			
-			</div>
-			<div class="search-results-events js-search-results-events">			
+	<div id='container'>
+ 		<div class="row">
+			<div class="col-12 header">
+				<h1>Live Concert Search</h1>
+
+				<form class="search-form js-search-form">
+					<input type="text" name="search-query" id="js-search-query" class="search-query" placeholder="Please type in artist name">
+					<button class="button" type="submit">Submit</button>
+				</form>
 			</div>
 		</div>
-	</main>
+
+		<div class="row">
+			<div class="col-4">
+				<div class="search-results js-search-results-artist">		
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="search-results js-search-results-hits">		
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="search-results js-search-results-events">			
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="map"></div>
 </body>
 </html>

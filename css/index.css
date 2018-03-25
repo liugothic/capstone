@@ -2,9 +2,116 @@
 	box-sizing: border-box;
 }
 
-body{
-	font-family: "Roboto", helvetica, sans-serif;
-	background-color: ghostwhite;
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic);
+
+/* UNIVERSAL */
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  font-size: 100%;
+}
+
+/* ROOT FONT STYLES */
+
+* {
+  font-family: 'Lato', Helvetica, sans-serif;
+  color: #333447;
+  line-height: 1.5;
+}
+
+/* TYPOGRAPHY */
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.375rem;
+}
+
+h4 {
+  font-size: 1.125rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+h6 {
+  font-size: 0.875rem;
+}
+
+p {
+  font-size: 1.125rem;
+  font-weight: 200;
+  line-height: 1.8;
+}
+
+h1, h2 {
+	line-height: 1.4em;
+	margin: 0;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.font-regular {
+  font-weight: 400;
+}
+
+.font-heavy {
+  font-weight: 700;
+}
+
+/* POSITIONING */
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.inline-block{
+	display: inline-block;
+}
+
+.center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.justify {
+  text-align: justify;
+}
+
+.map {
+  height: 100%;
+  position: absolute; 
+  top: 0; 
+  /* bottom: -200px;  */
+  left: 0; 
+  right: 0; 
+  z-index: 0;
+}
+
+#container {
+  z-index: 1;
+  position: relative;
+  padding-top: 10px;
 }
 
 .header{
@@ -12,64 +119,51 @@ body{
 	left: 0;
 	right: 0;
 	padding: 10px;
-	margin-top: -10px;
-	margin-bottom: -10px;
-	width: 100%;
-	height: 5%;
 	text-align: center;
 	font-size: 12px;
 	color: white;
-	background-color: dodgerblue;
-  	border-bottom: 1px solid #DDDDDD;
+	background: rgba(255, 255, 255, 0.9);
+	border-radius: 10px;
 }
 
 .search-form{
 	margin: auto;
-	height: 10%;
 	padding: 10px;	
 	text-align: center;
 	color: white;
-	background-color: dodgerblue;
 }
 
 .search-query{
 	width: 50%;
-	border-radius: 3px;
+	font-size: 14px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	padding: 10px;
 }
 
 .button{
-	border-radius: 3px;
+	border-radius: 5px;
 	background-color: white;
+	font-size: 14px;
+	padding: 10px;
 }
 
 .search-results{
-	margin: 0 auto;
-	margin-top: 1%;
-	width: 50%;
-	height: 20%;
-	padding: 10px;
+	margin: auto;
 	text-align: center;
+	background: rgba(255, 255, 255, 0.8);
+	border-radius: 10px;
 }
 
 .search-display{
-	margin-top: 50px;
-}
-
-.next-page, .prev-page, .space{
-	display: inline-block;
-}
-
-.space{
-	width: 40%;
+	padding: 10px;
+	margin-top: 7%;
+	min-height: 200px;
 }
 
 .artist-image{
-	display: block;
-	margin-top: 30px;
-	margin-bottom: 30px;
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
+	width: 125px;
+	height: 125px;
 }
 
 .ticket, .no-ticket{
@@ -77,14 +171,10 @@ body{
     width: 80px;
     border: 1px green solid;
     height: 25px;
-    display: block;
     text-align: center;
-    padding-top: 3px;
     text-decoration: none;
     color: white;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 2%;
+    margin-left: 10px;
 }
 
 .no-ticket{
@@ -93,26 +183,7 @@ body{
     text-decoration: line-through;
 }
 
-.clickable:hover{
-	text-decoration: underline;
-	cursor: pointer;
-	color: red;
-}
-
 .top-hit{
-	display: block;
-	color: blue;
-}
-
-.display-map{
-	height: 500px;
-    width: 100%;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    margin: auto;
-}
-
-.greyscale{
-	filter: grayscale(100%) opacity(10%);
+	margin: 10px;
 }
 
