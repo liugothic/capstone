@@ -113,7 +113,6 @@ function getEventDataFromAPI(searchTerm, callBack)
 function handleEventData(data)
 {	
 	EVENT_RESULTS.results = new Map();
-	EVENT_RESULTS.locations = [];
 
 	data.forEach((item, index) => 
 	{
@@ -135,7 +134,7 @@ function handleEventData(data)
 
 	EVENT_RESULTS.results.forEach(((value, key) => 
 	{
-		displayOnMap(value, key);
+		displayOnMap(value, key, EVENT_RESULTS.results.size);
 	}))
 }
 

@@ -6,6 +6,8 @@ var CURRENT_LOCATION =
 	longitude: -73.935242
 }
 
+var PROCESSED_COUNT = 0;
+
 function getCurrentLocation()
 {
 	GMaps.geolocate(
@@ -40,7 +42,7 @@ function initMap(latitude, longitude)
 	});
 }
 
-function displayOnMap(value, key)
+function displayOnMap(value, key, totalCount)
 {
 	GMaps.geocode(
 	{
@@ -71,6 +73,14 @@ function displayOnMap(value, key)
 		        	MAP.setZoom(8);
 		        }
 		    });
+
+		    PROCESSED_COUNT++;
+
+		    if (PROCESSED_COUNT === totalCount)
+			{
+				MAP.fitZoom();
+				PROCESSED_COUNT = 0;
+			}
 	    }
 	});
 }
