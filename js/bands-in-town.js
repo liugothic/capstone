@@ -132,6 +132,12 @@ function handleEventData(data)
 		}
 	});
 
+	if (EVENT_RESULTS.results.size === 0)
+	{
+		displayNoEvent();
+		return;
+	}
+
 	EVENT_RESULTS.results.forEach(((value, key) => 
 	{
 		displayOnMap(value, key, EVENT_RESULTS.results.size);

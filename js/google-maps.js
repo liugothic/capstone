@@ -87,15 +87,17 @@ function displayOnMap(value, key, totalCount)
 
 function displayEvent(value, key)
 {
-	display($('.js-search-results-events')); 
+	var element = $('.js-search-results-events');
+	display(element); 
 
 	var render = [];
 
 	var closeButtonElement = $('<button type="button" class="close">x</button>');
 	closeButtonElement.on('click', function()
 	{
-		$('.js-search-results-events').empty();
-		hide($('.js-search-results-events'));
+		element.empty();
+		hide(element);
+		MAP.fitZoom();
 	});
 	render.push(closeButtonElement);
 
@@ -108,5 +110,13 @@ function displayEvent(value, key)
 		render.push(event);
 	})
 
-	$('.js-search-results-events').html(render);
+	element.html(render);
+}
+
+function displayNoEvent()
+{
+	var element = $('.js-search-results-events');
+	hide(element); 
+
+	element.append($('<p>No events scheduled</p>'));
 }
