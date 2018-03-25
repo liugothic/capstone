@@ -4,9 +4,8 @@ var EVENT_RESULTS = {};
 
 var SEARCH_TERM;
 
-var MAP;
+var ARTIST_IMAGE;
 
-var CURRENT_LOCATION;
 
 function getArtistDataFromAPI(searchTerm, callBack, handleError)
 {
@@ -28,17 +27,41 @@ function handleArtistData(data)
 
 function displayArtistResult(artistResult)
 {
+	var artistElement = $('.js-search-results-artist');
 	var render_results = [];
 
+	var moreOrLessButtonElement = $('<button type="button" class="more-or-less-artist more-or-less">-</button>');
+	moreOrLessButtonElement.on('click', function()
+	{
+		var artistImageBlockElement = artistElement.find('.js-artist-image-block');
+		if ($(this).text() === "-")
+		{
+			ARTIST_IMAGE = artistImageBlockElement.find('.js-artist-image');
+
+			hide(artistElement);
+			artistImageBlockElement.empty();
+			$(this).text("+");
+		}
+		else
+		{
+			display(artistElement);
+			artistImageBlockElement.append(ARTIST_IMAGE);
+			$(this).text("-");
+		}
+	});
+	render_results.push(moreOrLessButtonElement);
+
 	var artistNameElement = $('<h2 class="js-artist-name artist-name"></h2>');
-	artistNameElement.text(artistResult.name);
-	
+	artistNameElement.text(artistResult.name);	
 	render_results.push(artistNameElement);
-	render_results.push($('<img class="artist-image" src="">').attr('src', artistResult.thumb_url));
 
-    display($('.js-search-results-artist'));
+	var imageElement = $('<div class="js-artist-image-block"></div>');
+	imageElement.append($('<img class="js-artist-image artist-image" src="">').attr('src', artistResult.thumb_url));
+	render_results.push(imageElement);
 
-	$('.js-search-results-artist').html(render_results);
+    display(artistElement);
+
+	artistElement.html(render_results);
 }
 
 function clear()
@@ -144,96 +167,9 @@ function renderDateTicketElement(item, index)
 	return element;
 }
 
-function getCurrentLocation()
-{
-	GMaps.geolocate(
-	{
-	  success: function(position) 
-	  {
-	  	initMap(position.coords.latitude, position.coords.longitude);
-	  	CURRENT_LOCATION = position.coords;
-	  },
-	  error: function(error) 
-	  {
-	    alert('Geolocation failed: ' + error.message);
-	  },
-	  not_supported: function() 
-	  {
-	    alert("Your browser does not support geolocation");
-	  },
-	  always: function() 
-	  {
-	  }
-	});
-}
-
-function initMap(latitude, longitude)
-{
-	MAP = new GMaps(
-	{
-  		div: '.map',
-  		lat: latitude,
-  		lng: longitude,
-  		zoom: 4
-	});
-}
-
-function displayOnMap(value, key)
-{
-	GMaps.geocode(
-	{
-	  	address: key,
-	  	callback: function(results, status)
-	  	{
-		  	var lat;
-		  	var lng;
-		    if (status == 'OK') 
-		    {
-		      	var latlng = results[0].geometry.location;
-		      	lat = latlng.lat();
-		      	lng = latlng.lng();
-		  	}
-		  	else 
-		  	{
-		  		lat = value.location.latitude;
-		  		lng = value.location.longitude;
-		  	}
-
-		    MAP.addMarker(
-		    {
-		        lat: lat,
-		        lng: lng,
-		        click: function(e){
-		        	displayEvent(value, key);
-		        	MAP.setCenter(lat, lng);
-		        	MAP.setZoom(8);
-		        }
-		    });
-	    }
-	});
-}
-
-function displayEvent(value, key)
-{
-	display($('.js-search-results-events'));  
-
-	var render = [];
-
-	var locationElement = $('<p></p>');
-	locationElement.text(key);
-	render.push(locationElement);  	
-	
-	value.events.forEach(event => 
-	{
-		render.push(event);
-	})
-
-	$('.js-search-results-events').html(render);
-}
-
 function search()
 {
-	initMap(40.730610, -73.935242);
+	initMap(CURRENT_LOCATION.latitude, CURRENT_LOCATION.longitude);
 	getCurrentLocation();
 
 	$('.js-search-form').submit(event => 

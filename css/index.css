@@ -157,7 +157,6 @@ h1, h2 {
 
 .search-display{
 	padding: 10px;
-	margin-top: 7%;
 	min-height: 200px;
 }
 
@@ -184,6 +183,27 @@ h1, h2 {
 }
 
 .top-hit{
+	margin: 10px;
+}
+
+.more-or-less, .close{
+    float:right;
+    display:inline-block;
+    padding:2px 5px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.more-or-less:hover, .close:hover{
+    cursor: pointer;
+}
+
+.more-or-less-artist{
+	margin-top: 10px;
+}
+
+.address{
 	margin: 10px;
 }
 
