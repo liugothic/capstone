@@ -41,12 +41,14 @@ function displayArtistResult(artistResult)
 			hide(artistElement);
 			artistImageBlockElement.empty();
 			$(this).text("+");
+			$(this).css('border', 'none');
 		}
 		else
 		{
 			display(artistElement);
 			artistImageBlockElement.append(ARTIST_IMAGE);
 			$(this).text("-");
+			$(this).css('border', '1px solid #ccc');
 		}
 	});
 	render_results.push(moreOrLessButtonElement);

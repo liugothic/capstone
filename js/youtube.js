@@ -52,6 +52,7 @@ function handlePlayListItems(data)
 			playListElement.html(TOP_HIT_ELEMENTS[0]);
 			hide(hitsElement);
 			$(this).text("+");
+			$(this).css('border', 'none');
 		}
 		else
 		{
@@ -62,6 +63,7 @@ function handlePlayListItems(data)
 				playListElement.append(item);
 			})
 			$(this).text("-");
+			$(this).css('border', '1px solid #ccc');
 		}
 	});
 	render.push(moreOrLessButtonElement);

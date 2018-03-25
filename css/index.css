@@ -190,9 +190,10 @@ h1, h2 {
     float:right;
     display:inline-block;
     padding:2px 5px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.8);
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-right: 5px;
 }
 
 .more-or-less:hover, .close:hover{
