@@ -88,10 +88,6 @@ h1, h2 {
 	display: inline-block;
 }
 
-.float-left{
-	float: left;
-}
-
 .center {
   text-align: center;
   margin-left: auto;
@@ -186,7 +182,7 @@ h1, h2 {
     text-decoration: line-through;
 }
 
-.top-hit{
+.top-hit, .address{
 	margin: 10px;
 }
 
@@ -208,10 +204,6 @@ h1, h2 {
 	margin-top: 10px;
 }
 
-.address{
-	margin: 10px;
-}
-
 .timeline-element{
 	margin: 4px;
 	text-align: center;
@@ -220,7 +212,7 @@ h1, h2 {
 	width: 100px;
 }
 
-.timeline-wrap {
+.timeline-wrap{
 	position: fixed;
 	left: 4.33%;
 	right: 4.33%;
@@ -232,4 +224,13 @@ h1, h2 {
 	&::-webkit-scrollbar {
 		display: none;
 	}
+}
+
+.artist-wiki{
+	text-decoration: none;
+}
+
+.artist-wiki:hover{
+	text-decoration: underline;
+	color: blue;
 }

@@ -54,7 +54,12 @@ function displayArtistResult(artistResult)
 	render_results.push(moreOrLessButtonElement);
 
 	var artistNameElement = $('<h2 class="js-artist-name artist-name"></h2>');
-	artistNameElement.text(artistResult.name);	
+
+	var wikiLinkElement = $('<a class="artist-wiki" href="" target="_blank"></a>');
+	wikiLinkElement.text(artistResult.name);
+	wikiLinkElement.attr('href', 'https://en.wikipedia.org/wiki/' + artistResult.name);
+	artistNameElement.append(wikiLinkElement);
+
 	render_results.push(artistNameElement);
 
 	var imageElement = $('<div class="js-artist-image-block"></div>');
