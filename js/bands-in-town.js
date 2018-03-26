@@ -76,6 +76,7 @@ function clear()
 	hide($('.js-search-results-hits'));
 	$('.js-search-results-events').html($(''));
 	$('.js-search-results-hits').html($(''));
+	$('.js-timeline').html($(''));
 }
 
 function hide(element)
@@ -112,35 +113,50 @@ function getEventDataFromAPI(searchTerm, callBack)
 
 function handleEventData(data)
 {	
-	EVENT_RESULTS.results = new Map();
-
-	data.forEach((item, index) => 
-	{
-		var element = renderDateTicketElement(item, index);
-		var address = item.venue.name + ', ' + (item.venue.region !== "" ? 
-			item.venue.city + ', ' + item.venue.region + ', ' + item.venue.country :
-			item.venue.city + ', ' + item.venue.country);
-
-		var location = {latitude: item.venue.latitude, longitude: item.venue.longitude};
-		if (EVENT_RESULTS.results.has(address))
-		{
-			EVENT_RESULTS.results.get(address).events.push(element);
-		}
-		else
-		{
-			EVENT_RESULTS.results.set(address, {location: location, events: [element]});
-		}
-	});
-
-	if (EVENT_RESULTS.results.size === 0)
+	if (data.length === 0)
 	{
 		displayNoEvent();
 		return;
 	}
 
-	EVENT_RESULTS.results.forEach(((value, key) => 
+	processAddressMap(data);
+}
+
+function displayNoEvent()
+{
+	var element = $('.js-search-results-events');
+	hide(element); 
+
+	element.append($('<p>No events scheduled</p>'));
+}
+
+function processAddressMap(data)
+{
+	EVENT_RESULTS.addressMap = new Map();
+
+	data.forEach((item, index) => 
 	{
-		displayOnMap(value, key, EVENT_RESULTS.results.size);
+		var element = renderDateTicketElement(item, index);
+		var date = item.datetime.split('T')[0];
+		var address = item.venue.name + ', ' + (item.venue.region !== "" ? 
+			item.venue.city + ', ' + item.venue.region + ', ' + item.venue.country :
+			item.venue.city + ', ' + item.venue.country);
+
+		var location = {latitude: item.venue.latitude, longitude: item.venue.longitude};
+		if (EVENT_RESULTS.addressMap.has(address))
+		{
+			EVENT_RESULTS.addressMap.get(address).events.push(element);
+			EVENT_RESULTS.addressMap.get(address).dates.push(date);
+		}
+		else
+		{
+			EVENT_RESULTS.addressMap.set(address, {dates: [date], location: location, events: [element]});
+		}
+	});
+
+	EVENT_RESULTS.addressMap.forEach(((value, key) => 
+	{
+		displayOnMap(value, key, EVENT_RESULTS.addressMap.size);
 	}))
 }
 

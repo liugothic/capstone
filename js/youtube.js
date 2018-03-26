@@ -17,9 +17,21 @@ function getTopHitsPlayList(searchTerm, callBack)
 
 function handlePlayList(data)
 {
-	var playlistId = data.items[0].id.playlistId;
+	var playlistId = getTopTrackPlayListId(data);
 
 	getTopHits(playlistId, handlePlayListItems);
+}
+
+function getTopTrackPlayListId(data)
+{
+	var playlistId = data.items[0].id.playlistId;
+	var i = 0;
+	while (!playlistId)
+	{
+		playlistId = data.items[i].id.playlistId;
+		i++;
+	}
+	return playlistId;
 }
 
 function getTopHits(playlistId, callBack)

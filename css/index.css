@@ -88,6 +88,10 @@ h1, h2 {
 	display: inline-block;
 }
 
+.float-left{
+	float: left;
+}
+
 .center {
   text-align: center;
   margin-left: auto;
@@ -196,7 +200,7 @@ h1, h2 {
     margin-right: 5px;
 }
 
-.more-or-less:hover, .close:hover{
+.timeline-element:hover, .more-or-less:hover, .close:hover{
     cursor: pointer;
 }
 
@@ -208,3 +212,24 @@ h1, h2 {
 	margin: 10px;
 }
 
+.timeline-element{
+	margin: 4px;
+	text-align: center;
+	background: rgba(255, 255, 255, 0.8);
+	border-radius: 5px;
+	width: 100px;
+}
+
+.timeline-wrap {
+	position: fixed;
+	left: 4.33%;
+	right: 4.33%;
+	bottom: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	overflow-x: scroll;
+	text-align: justify;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}

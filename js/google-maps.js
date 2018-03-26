@@ -8,6 +8,8 @@ var CURRENT_LOCATION =
 
 var PROCESSED_COUNT = 0;
 
+var TIMELINE_ELEMENTS = [];
+
 function getCurrentLocation()
 {
 	GMaps.geolocate(
@@ -63,23 +65,26 @@ function displayOnMap(value, key, totalCount)
 		  		lng = value.location.longitude;
 		  	}
 
-		    MAP.addMarker(
-		    {
+		  	var marker = 
+		  	{
 		        lat: lat,
 		        lng: lng,
-		        click: function(e){
+		        click: function(e)
+		        {
 		        	displayEvent(value, key);
 		        	MAP.setCenter(lat, lng);
 		        	MAP.setZoom(8);
 		        }
-		    });
+		    };
+
+		    MAP.addMarker(marker);    
+		    processTimeLineElements(value.dates, marker);
 
 		    PROCESSED_COUNT++;
 
 		    if (PROCESSED_COUNT === totalCount)
 			{
-				MAP.fitZoom();
-				PROCESSED_COUNT = 0;
+				onCompleteAllMarkers();
 			}
 	    }
 	});
@@ -113,10 +118,45 @@ function displayEvent(value, key)
 	element.html(render);
 }
 
-function displayNoEvent()
+function processTimeLineElements(dates, marker)
 {
-	var element = $('.js-search-results-events');
-	hide(element); 
+	dates.forEach((date, index) => 
+	{
+		var element = $('<div class="inline-block js-timeline-element timeline-element"></div>');
+		element.text(date);
 
-	element.append($('<p>No events scheduled</p>'));
+		element.on('click', function()
+		{
+			$(marker.click);
+		});
+
+		TIMELINE_ELEMENTS.push(element);
+	});
+}
+
+function onCompleteAllMarkers()
+{
+	MAP.fitZoom();
+	sortTimeLineElementArray(TIMELINE_ELEMENTS);
+	$('.js-timeline').html(TIMELINE_ELEMENTS);
+
+	TIMELINE_ELEMENTS = [];
+	PROCESSED_COUNT = 0;
+}
+
+function sortTimeLineElementArray(array)
+{
+	array.sort(function(a,b)
+	{
+		var aInt = getDateInt(a.text());
+		var bInt = getDateInt(b.text());
+		return aInt - bInt;
+	});
+}
+
+function getDateInt(dateString)
+{
+	var intArray = dateString.split('-');
+	var int = intArray[0] * 10000 + intArray[1] * 100 + intArray[2];
+	return int;
 }
