@@ -40,7 +40,21 @@ function initMap(latitude, longitude)
   		div: '.map',
   		lat: latitude,
   		lng: longitude,
-  		zoom: 4
+  		zoom: 4,
+  		zoomControl: true,
+      	zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_BOTTOM
+      	},
+      	mapTypeControl: true,
+      	mapTypeControlOptions: {
+          style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
+      	},
+      	streetViewControl: false,
+      	fullscreenControl: true,
+      	fullscreenControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
+      	}
 	});
 }
 
