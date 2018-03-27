@@ -40,7 +40,7 @@ function initMap(latitude, longitude)
   		div: '.map',
   		lat: latitude,
   		lng: longitude,
-  		zoom: 4,
+  		zoom: 6,
   		zoomControl: true,
       	zoomControlOptions: {
           position: google.maps.ControlPosition.LEFT_BOTTOM
@@ -87,7 +87,7 @@ function displayOnMap(value, key, totalCount)
 		        {
 		        	displayEvent(value, key);
 		        	MAP.setCenter(lat, lng);
-		        	MAP.setZoom(8);
+		        	MAP.setZoom(12);
 		        }
 		    };
 
