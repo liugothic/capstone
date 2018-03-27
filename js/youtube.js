@@ -1,7 +1,7 @@
 var YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 var YOUTUBE_PLAYLISTITEMS_URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
 
-var TOP_HIT_ELEMENTS;
+var TOP_HIT_ELEMENTS = [];
 
 
 function getTopHitsPlayList(searchTerm, callBack)
@@ -48,19 +48,16 @@ function getTopHits(playlistId, callBack)
 function handlePlayListItems(data)
 {
 	var hitsElement = $('.js-search-results-hits');
-	display(hitsElement);
 
+	TOP_HIT_ELEMENTS = [];
 	var render = [];
 
-	var moreOrLessButtonElement = $('<button type="button" class="more-or-less">-</button>');
+	var moreOrLessButtonElement = $('<button type="button" class="more-or-less">+</button>').css('border', 'none');
 	moreOrLessButtonElement.on('click', function()
 	{
 		var playListElement = hitsElement.find('.js-playlist');
 		if ($(this).text() === "-")
 		{
-			TOP_HIT_ELEMENTS = playListElement.children();
-			TOP_HIT_ELEMENTS = TOP_HIT_ELEMENTS.toArray();
-
 			playListElement.html(TOP_HIT_ELEMENTS[0]);
 			hide(hitsElement);
 			$(this).text("+");
@@ -82,10 +79,11 @@ function handlePlayListItems(data)
 
 	var playListElement = $('<div class="js-playlist"></div>');
 
-	data.items.forEach((item, index) => 
+	TOP_HIT_ELEMENTS = data.items.map((item, index) => 
 	{
-		playListElement.append(renderPlayListItem(item));
+		return renderPlayListItem(item);
 	});
+	playListElement.append(TOP_HIT_ELEMENTS[0]);	
 	render.push(playListElement);
 
 	hitsElement.html(render);

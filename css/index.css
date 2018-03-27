@@ -88,6 +88,10 @@ h1, h2 {
 	display: inline-block;
 }
 
+.float-right{
+	float: right;
+}
+
 .center {
   text-align: center;
   margin-left: auto;
