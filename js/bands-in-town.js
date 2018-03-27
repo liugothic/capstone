@@ -74,7 +74,7 @@ function displayArtistResult(artistResult)
 function clear()
 {
 	MAP.removeMarkers();
-	MAP.setZoom(4);
+	MAP.setZoom(6);
 	MAP.setCenter(CURRENT_LOCATION.latitude, CURRENT_LOCATION.longitude);
 	hide($('.js-search-results-artist'));
 	hide($('.js-search-results-events'));
