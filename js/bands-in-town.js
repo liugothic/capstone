@@ -174,23 +174,27 @@ function renderDateTicketElement(item, index)
 	dateElement.text(datetime);
 	element.append(dateElement);
 
-	var ticketElement = $('<a class="ticket inline-block" href="" target="_blank"></a>');
+	var noTicketElement = $('<div class="no-ticket inline-block">No Ticket</div>');
+	var hasTicket = false;
 	item.offers.forEach((iter, index) => 
 	{
 		if (iter.type === "Tickets")
 		{
 			if (iter.status === "available")
 			{
+				var ticketElement = $('<a class="inline-block ticket" href="" target="_blank"></a>');
 				ticketElement.attr('href', iter.url).text('Get Ticket');
+
+				hasTicket = true;
 				element.append(ticketElement);
-			}
-			else
-			{
-				ticketElement.remove();
-				element.append($('<p class="no-ticket"></p>').text('No Ticket'));
+				return;
 			}
 		}
 	});
+	if (!hasTicket)
+	{
+		element.append(noTicketElement);
+	}
 
 	return element;
 }
