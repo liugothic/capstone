@@ -126,7 +126,8 @@ h1, h2 {
   position: relative;
   padding-top: 10px;
   margin-left: 2%;
-  width: 30%;
+  min-width: 30%;
+  max-width: 50%;
   float: left;
 }
 
