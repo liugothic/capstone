@@ -90,6 +90,8 @@ h1, h2 {
 
 .float-right{
 	float: right;
+	margin-top: 10px;
+	margin-right: 2%;
 }
 
 .center {
@@ -109,19 +111,29 @@ h1, h2 {
   /* bottom: -200px;  */
   left: 0; 
   right: 0; 
-  z-index: 0;
+  z-index: 1;
 }
 
-#container {
-  z-index: 1;
+.container {
+  z-index: 10;
+  width: 100%;
   position: relative;
   padding-top: 10px;
 }
 
+.container-artist {
+  z-index: 10;
+  position: relative;
+  padding-top: 10px;
+  margin-left: 2%;
+  width: 30%;
+  float: left;
+}
+
 .header{
+	z-index: 10;
 	top: 0;
 	left: 0;
-	right: 0;
 	padding: 10px;
 	text-align: center;
 	font-size: 12px;

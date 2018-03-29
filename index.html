@@ -19,7 +19,7 @@
 </head>
 
 <body>
-	<div id='container'>
+	<div class='container'>
  		<div class="row">
 			<div class="col-12 header">
 				<h1>Live Concert Search</h1>
@@ -31,31 +31,29 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-4">
+		<div class="container-artist">
+			<div class="col-12">
 				<div class="search-results js-search-results-artist">		
 				</div>
-			</div>
-			<div class="col-4">
-			</div>
-			<div class="col-4">
-				<div class="search-results js-search-results-events">			
-				</div>
-			</div>
-		</div>
 
-		<div class="row">
-			<div class="col-4">
 				<div class="search-results js-search-results-hits">		
 				</div>
 			</div>
 		</div>
 
+		<div class="col-4 float-right">
+			<div class="search-results js-search-results-events">			
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
 		<div class="timeline-wrap">
 			<div class="timeline js-timeline">		
 			</div>
 		</div>
 	</div>
+
 	<div class="map"></div>
 </body>
 </html>
